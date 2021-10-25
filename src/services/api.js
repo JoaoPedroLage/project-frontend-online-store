@@ -1,7 +1,6 @@
 export async function getCategories() {
   // Implemente aqui
-  // 'https://api.mercadolibre.com/sites/MLB/categories';
-
+  const url = 'https://api.mercadolibre.com/sites/MLB/categories';
 }
 
 export async function getProductsFromCategoryAndQuery(/* categoryId, query */) {
