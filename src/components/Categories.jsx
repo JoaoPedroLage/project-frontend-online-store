@@ -18,7 +18,20 @@ export default class Categories extends React.Component {
 
   async onGetCategoriesList() {
     const categoriesList = await getCategories();
-    const categoryName = categoriesList.map((element) => (
+    
+    this.setState({
+      categoriesList,
+    });
+  }
+
+  render() {
+    const { categoriesList } = this.state;
+
+    return (
+      <div>
+        <aside>
+          Categorias
+          {categoriesList.map((element) => (
       (
         <div key={ element.id }>
           <label
@@ -35,20 +48,7 @@ export default class Categories extends React.Component {
             { element.name }
           </label>
         </div>
-      )));
-    this.setState({
-      categoriesList: categoryName,
-    });
-  }
-
-  render() {
-    const { categoriesList } = this.state;
-
-    return (
-      <div>
-        <aside>
-          Categorias
-          {categoriesList}
+      )))}
         </aside>
       </div>
     );
