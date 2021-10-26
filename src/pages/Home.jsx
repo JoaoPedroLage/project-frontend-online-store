@@ -1,4 +1,5 @@
 import React from 'react';
+import Categories from '../components/Categories';
 import { Link } from 'react-router-dom';
 
 export default class Home extends React.Component {
@@ -14,6 +15,7 @@ export default class Home extends React.Component {
         <h2 data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>
+        <Categories />
         <div>
           <Link data-testid="shopping-cart-button" to="/ShoppingCart">
             Carrinho de compras
