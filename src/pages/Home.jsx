@@ -1,5 +1,6 @@
 import React from 'react';
 import Categories from '../components/Categories';
+import { Link } from 'react-router-dom';
 
 export default class Home extends React.Component {
   render() {
@@ -15,6 +16,11 @@ export default class Home extends React.Component {
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>
         <Categories />
+        <div>
+          <Link data-testid="shopping-cart-button" to="/ShoppingCart">
+            Carrinho de compras
+          </Link>
+        </div>
       </div>
     );
   }
