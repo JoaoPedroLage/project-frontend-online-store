@@ -18,26 +18,9 @@ export default class Categories extends React.Component {
 
   async onGetCategoriesList() {
     const categoriesList = await getCategories();
-    const categoryName = categoriesList.map((element) => (
-      (
-        <div key={ element.id }>
-          <label
-            key={ element.id }
-            htmlFor={ element.name }
-          >
-            <input
-              type="radio"
-              data-testid="category"
-              id={ element.id }
-              name={ element.name }
-              onChange={ this.handleCategoriesList }
-            />
-            { element.name }
-          </label>
-        </div>
-      )));
+
     this.setState({
-      categoriesList: categoryName,
+      categoriesList,
     });
   }
 
@@ -48,7 +31,24 @@ export default class Categories extends React.Component {
       <div>
         <aside>
           Categorias
-          {categoriesList}
+          {categoriesList.map((element) => (
+            (
+              <div key={ element.id }>
+                <label
+                  key={ element.id }
+                  htmlFor={ element.name }
+                >
+                  <input
+                    type="radio"
+                    data-testid="category"
+                    id={ element.id }
+                    name={ element.name }
+                    onChange={ this.handleCategoriesList }
+                  />
+                  { element.name }
+                </label>
+              </div>
+            )))}
         </aside>
       </div>
     );
