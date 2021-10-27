@@ -1,8 +1,10 @@
 import '../index.css';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Categories from '../components/Categories';
 import Cards from '../components/Cards';
+import Loading from '../components/Loading';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 export default class Home extends React.Component {
@@ -14,29 +16,33 @@ export default class Home extends React.Component {
       searchMode: false,
       productName: '',
       findProduct: false,
+      loading: false,
       filterProducts: [],
       isSearchButtonDisabled: false,
-      productList: [],
     };
 
     this.onHandleInput = this.onHandleInput.bind(this);
     this.onHandleSearch = this.onHandleSearch.bind(this);
-    this.handleCategoriesList = this.handleCategoriesList(this);
+    this.handleCategoriesList = this.handleCategoriesList.bind(this);
   }
 
-  handleCategoriesList(event) {
-    console.log(event);
-    // const productName
-    /*
-    const productList = await getProductsFromCategoryAndQuery(id);
+  async handleCategoriesList({ target }) {
+    this.setState({ searchMode: true, loading: true }); // iniciar o modo de pesquisa
+    let findProduct = false; // começa como falso
+    const { productName } = this.state;
+    
+    const filterProducts = await getProductsFromCategoryAndQuery(target.id, productName);
     this.setState({
-      categoryId: id,
-      productList,
-    });  */
+      categoryId: target.id,
+      filterProducts,
+    })
+    if (filterProducts.results.length > 0) findProduct = true; // aqui tem q ser o resultado
+    this.setState({ filterProducts, findProduct, loading: false });
+    console.log(filterProducts);
   }
 
   async onHandleSearch() {
-    this.setState({ searchMode: true }); // iniciar o modo de pesquisa
+    this.setState({ searchMode: true, loading: true }); // iniciar o modo de pesquisa
     let findProduct = false; // começa como falso
     const { productName } = this.state;
     const categoriesList = await getCategories();
@@ -45,7 +51,7 @@ export default class Home extends React.Component {
     const filterProducts = await getProductsFromCategoryAndQuery(categoryId, productName);
     // aqui tem q fazer a condicção de qdo nao encontra nenhum produto para renderizar a msg
     if (filterProducts.results.length > 0) findProduct = true; // aqui tem q ser o resultado
-    this.setState({ filterProducts, findProduct });
+    this.setState({ filterProducts, findProduct, loading: false });
   }
 
   onHandleInput({ target }) {
@@ -64,6 +70,7 @@ export default class Home extends React.Component {
 
   render() {
     const {
+      loading,
       searchMode,
       findProduct,
       productName,
@@ -100,11 +107,11 @@ export default class Home extends React.Component {
         <br />
         <div className="main-section">
           <section className="categories">
-            <Categories { ...this.handleCategoriesList } />
+            <Categories  handleCategoriesList= { this.handleCategoriesList} />
           </section>
           { searchMode && (
             <div>
-              { findProduct ? (
+              { loading ? <Loading /> : findProduct ? (
                 <section className="cards">
                   <Cards { ...this.state } />
                 </section>
@@ -117,3 +124,7 @@ export default class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  filterProducts: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.any)),
+};
