@@ -8,15 +8,14 @@ export default class Cards extends React.Component {
       <div>
         {results.map((product) => (
           (
-            <div className="card" key={ product.id }>
-              <h3 data-testid="product">{ product.title }</h3>
+            <div data-testid="product" className="card" key={ product.id }>
+              <h3>{ product.title }</h3>
               <img
-                data-testid="product"
                 src={ product.thumbnail }
                 alt={ product.title }
               />
               <br />
-              <span data-testid="product">
+              <span>
                 Preço:
                 &nbsp;
                 { product.price }
@@ -29,6 +28,6 @@ export default class Cards extends React.Component {
 
 Cards.propTypes = {
   filterProducts: PropTypes.shape({
-    results: PropTypes.shape,
+    results: PropTypes.arrayOf,
   }).isRequired,
 };

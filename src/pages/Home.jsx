@@ -10,6 +10,7 @@ export default class Home extends React.Component {
     super();
 
     this.state = {
+      searchMode: false,
       productName: '',
       findProduct: false,
       filterProducts: [],
@@ -35,18 +36,21 @@ export default class Home extends React.Component {
   }
 
   async onHandleSearch() {
+    this.setState({ searchMode: true }); // iniciar o modo de pesquisa
+    let findProduct = false; // começa como falso
     const { productName } = this.state;
     const categoriesList = await getCategories();
-
     const categoryId = categoriesList
       .filter((categories) => (categories.name.includes(productName)));
     const filterProducts = await getProductsFromCategoryAndQuery(categoryId, productName);
-
-    this.setState({ filterProducts, findProduct: true });
+    // aqui tem q fazer a condicção de qdo nao encontra nenhum produto para renderizar a msg
+    if (filterProducts.results.length > 0) findProduct = true; // aqui tem q ser o resultado
+    this.setState({ filterProducts, findProduct });
   }
 
   render() {
     const {
+      searchMode,
       findProduct,
       productName,
       isSearchButtonDisabled } = this.state;
@@ -84,11 +88,15 @@ export default class Home extends React.Component {
           <section className="categories">
             <Categories />
           </section>
-          { findProduct ? (
-            <section className="cards">
-              <Cards { ...this.state } />
-            </section>
-          ) : (<h2>Nenhum produto foi encontrado</h2>
+          { searchMode && (
+            <div>
+              { findProduct ? (
+                <section className="cards">
+                  <Cards { ...this.state } />
+                </section>
+              ) : (<h2>Nenhum produto foi encontrado</h2>
+              )}
+            </div>
           )}
         </div>
       </div>
