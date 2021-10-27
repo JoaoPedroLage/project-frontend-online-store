@@ -10,15 +10,42 @@ export default class Home extends React.Component {
     super();
 
     this.state = {
+      categoryId: '',
       searchMode: false,
       productName: '',
       findProduct: false,
       filterProducts: [],
       isSearchButtonDisabled: false,
+      productList: [],
     };
 
     this.onHandleInput = this.onHandleInput.bind(this);
     this.onHandleSearch = this.onHandleSearch.bind(this);
+    this.handleCategoriesList = this.handleCategoriesList(this);
+  }
+
+  handleCategoriesList(event) {
+    console.log(event);
+    // const productName
+    /*
+    const productList = await getProductsFromCategoryAndQuery(id);
+    this.setState({
+      categoryId: id,
+      productList,
+    });  */
+  }
+
+  async onHandleSearch() {
+    this.setState({ searchMode: true }); // iniciar o modo de pesquisa
+    let findProduct = false; // começa como falso
+    const { productName } = this.state;
+    const categoriesList = await getCategories();
+    const categoryId = categoriesList
+      .filter((categories) => (categories.name.includes(productName)));
+    const filterProducts = await getProductsFromCategoryAndQuery(categoryId, productName);
+    // aqui tem q fazer a condicção de qdo nao encontra nenhum produto para renderizar a msg
+    if (filterProducts.results.length > 0) findProduct = true; // aqui tem q ser o resultado
+    this.setState({ filterProducts, findProduct });
   }
 
   onHandleInput({ target }) {
@@ -33,19 +60,6 @@ export default class Home extends React.Component {
         this.setState({ isSearchButtonDisabled: false });
       } else { this.setState({ isSearchButtonDisabled: true }); }
     });
-  }
-
-  async onHandleSearch() {
-    this.setState({ searchMode: true }); // iniciar o modo de pesquisa
-    let findProduct = false; // começa como falso
-    const { productName } = this.state;
-    const categoriesList = await getCategories();
-    const categoryId = categoriesList
-      .filter((categories) => (categories.name.includes(productName)));
-    const filterProducts = await getProductsFromCategoryAndQuery(categoryId, productName);
-    // aqui tem q fazer a condicção de qdo nao encontra nenhum produto para renderizar a msg
-    if (filterProducts.results.length > 0) findProduct = true; // aqui tem q ser o resultado
-    this.setState({ filterProducts, findProduct });
   }
 
   render() {
@@ -86,7 +100,7 @@ export default class Home extends React.Component {
         <br />
         <div className="main-section">
           <section className="categories">
-            <Categories />
+            <Categories { ...this.handleCategoriesList } />
           </section>
           { searchMode && (
             <div>
