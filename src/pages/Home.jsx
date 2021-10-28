@@ -1,6 +1,5 @@
 import '../index.css';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Categories from '../components/Categories';
 import Cards from '../components/Cards';
@@ -75,8 +74,6 @@ export default class Home extends React.Component {
       productName,
       isSearchButtonDisabled } = this.state;
 
-    const { addToCart } = this.props;
-
     return (
       <div>
         <h1>HOME</h1>
@@ -116,7 +113,7 @@ export default class Home extends React.Component {
                 <div>
                   { findProduct ? (
                     <section className="cards">
-                      <Cards { ...this.state } addToCart={ addToCart } />
+                      <Cards { ...this.state } />
                     </section>
                   )
                     : <h2>Nenhum produto foi encontrado</h2>}
@@ -127,7 +124,3 @@ export default class Home extends React.Component {
     );
   }
 }
-
-Home.propTypes = {
-  addToCart: PropTypes.func.isRequired,
-};
