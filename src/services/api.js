@@ -5,6 +5,13 @@ export async function getCategories() {
   return categories;
 }
 
+export async function getProductByID(ItemID) {
+  const request = await fetch(`https://api.mercadolibre.com/items/${ItemID}`);
+  const product = await request.json();
+
+  return product;
+}
+
 export async function getProductsFromCategoryAndQuery(categoryId, query) {
   let products;
 

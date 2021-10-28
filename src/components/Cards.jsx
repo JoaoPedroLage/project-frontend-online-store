@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export default class Cards extends React.Component {
   render() {
@@ -29,6 +30,22 @@ export default class Cards extends React.Component {
               >
                 Adicionar ao carrinho
               </button>
+              <Link
+                to={ `/CardDetail/${product.id}/${product.title}` }
+                data-testid="product-detail-link"
+              >
+                <h3>{ product.title }</h3>
+                <img
+                  src={ product.thumbnail }
+                  alt={ product.title }
+                />
+                <br />
+                <span>
+                  Preço:
+                  &nbsp;
+                  { product.price }
+                </span>
+              </Link>
             </div>
           )))}
       </div>);
