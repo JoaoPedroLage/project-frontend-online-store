@@ -28,6 +28,6 @@ export default class Cards extends React.Component {
 
 Cards.propTypes = {
   filterProducts: PropTypes.shape({
-    results: PropTypes.arrayOf,
+    results: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
 };

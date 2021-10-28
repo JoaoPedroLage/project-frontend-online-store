@@ -1,6 +1,5 @@
 import '../index.css';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Categories from '../components/Categories';
 import Cards from '../components/Cards';
@@ -38,7 +37,6 @@ export default class Home extends React.Component {
     });
     if (filterProducts.results.length > 0) findProduct = true; // aqui tem q ser o resultado
     this.setState({ filterProducts, findProduct, loading: false });
-    console.log(filterProducts);
   }
 
   async onHandleSearch() {
@@ -126,7 +124,3 @@ export default class Home extends React.Component {
     );
   }
 }
-
-Home.propTypes = {
-  filterProducts: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.any)),
-};
