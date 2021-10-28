@@ -30,12 +30,12 @@ export default class Home extends React.Component {
     this.setState({ searchMode: true, loading: true }); // iniciar o modo de pesquisa
     let findProduct = false; // começa como falso
     const { productName } = this.state;
-    
+
     const filterProducts = await getProductsFromCategoryAndQuery(target.id, productName);
     this.setState({
       categoryId: target.id,
       filterProducts,
-    })
+    });
     if (filterProducts.results.length > 0) findProduct = true; // aqui tem q ser o resultado
     this.setState({ filterProducts, findProduct, loading: false });
     console.log(filterProducts);
@@ -107,17 +107,19 @@ export default class Home extends React.Component {
         <br />
         <div className="main-section">
           <section className="categories">
-            <Categories  handleCategoriesList= { this.handleCategoriesList} />
+            <Categories handleCategoriesList={ this.handleCategoriesList } />
           </section>
-          { searchMode && (
-            <div>
-              { loading ? <Loading /> : findProduct ? (
-                <section className="cards">
-                  <Cards { ...this.state } />
-                </section>
-              ) : (<h2>Nenhum produto foi encontrado</h2>
-              )}
-            </div>
+          {searchMode && (
+            loading ? <Loading />
+              : (
+                <div>
+                  { findProduct ? (
+                    <section className="cards">
+                      <Cards { ...this.state } />
+                    </section>
+                  )
+                    : <h2>Nenhum produto foi encontrado</h2>}
+                </div>)
           )}
         </div>
       </div>
