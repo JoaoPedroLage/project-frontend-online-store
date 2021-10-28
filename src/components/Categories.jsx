@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getCategories } from '../services/api';
 
 export default class Categories extends React.Component {
@@ -7,6 +8,7 @@ export default class Categories extends React.Component {
 
     this.state = {
       categoriesList: [],
+      // categoryId: '',
     };
 
     this.onGetCategoriesList = this.onGetCategoriesList.bind(this);
@@ -18,7 +20,6 @@ export default class Categories extends React.Component {
 
   async onGetCategoriesList() {
     const categoriesList = await getCategories();
-
     this.setState({
       categoriesList,
     });
@@ -26,7 +27,7 @@ export default class Categories extends React.Component {
 
   render() {
     const { categoriesList } = this.state;
-
+    const { handleCategoriesList } = this.props;
     return (
       <div>
         <aside>
@@ -42,8 +43,8 @@ export default class Categories extends React.Component {
                     type="radio"
                     data-testid="category"
                     id={ element.id }
-                    name={ element.name }
-                    onChange={ this.handleCategoriesList }
+                    name="categoriesName"
+                    onChange={ handleCategoriesList }
                   />
                   { element.name }
                 </label>
@@ -54,3 +55,7 @@ export default class Categories extends React.Component {
     );
   }
 }
+
+Categories.propTypes = {
+  handleCategoriesList: PropTypes.func.isRequired,
+};

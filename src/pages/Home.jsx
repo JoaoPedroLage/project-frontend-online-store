@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Categories from '../components/Categories';
 import Cards from '../components/Cards';
+import Loading from '../components/Loading';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 export default class Home extends React.Component {
@@ -10,15 +11,45 @@ export default class Home extends React.Component {
     super();
 
     this.state = {
+      categoryId: '',
       searchMode: false,
       productName: '',
       findProduct: false,
+      loading: false,
       filterProducts: [],
       isSearchButtonDisabled: false,
     };
 
     this.onHandleInput = this.onHandleInput.bind(this);
     this.onHandleSearch = this.onHandleSearch.bind(this);
+    this.handleCategoriesList = this.handleCategoriesList.bind(this);
+  }
+
+  async handleCategoriesList({ target }) {
+    this.setState({ searchMode: true, loading: true }); // iniciar o modo de pesquisa
+    let findProduct = false; // começa como falso
+    const { productName } = this.state;
+
+    const filterProducts = await getProductsFromCategoryAndQuery(target.id, productName);
+    this.setState({
+      categoryId: target.id,
+      filterProducts,
+    });
+    if (filterProducts.results.length > 0) findProduct = true; // aqui tem q ser o resultado
+    this.setState({ filterProducts, findProduct, loading: false });
+  }
+
+  async onHandleSearch() {
+    this.setState({ searchMode: true, loading: true }); // iniciar o modo de pesquisa
+    let findProduct = false; // começa como falso
+    const { productName } = this.state;
+    const categoriesList = await getCategories();
+    const categoryId = categoriesList
+      .filter((categories) => (categories.name.includes(productName)));
+    const filterProducts = await getProductsFromCategoryAndQuery(categoryId, productName);
+    // aqui tem q fazer a condicção de qdo nao encontra nenhum produto para renderizar a msg
+    if (filterProducts.results.length > 0) findProduct = true; // aqui tem q ser o resultado
+    this.setState({ filterProducts, findProduct, loading: false });
   }
 
   onHandleInput({ target }) {
@@ -35,21 +66,9 @@ export default class Home extends React.Component {
     });
   }
 
-  async onHandleSearch() {
-    this.setState({ searchMode: true }); // iniciar o modo de pesquisa
-    let findProduct = false; // começa como falso
-    const { productName } = this.state;
-    const categoriesList = await getCategories();
-    const categoryId = categoriesList
-      .filter((categories) => (categories.name.includes(productName)));
-    const filterProducts = await getProductsFromCategoryAndQuery(categoryId, productName);
-    // aqui tem q fazer a condicção de qdo nao encontra nenhum produto para renderizar a msg
-    if (filterProducts.results.length > 0) findProduct = true; // aqui tem q ser o resultado
-    this.setState({ filterProducts, findProduct });
-  }
-
   render() {
     const {
+      loading,
       searchMode,
       findProduct,
       productName,
@@ -86,17 +105,19 @@ export default class Home extends React.Component {
         <br />
         <div className="main-section">
           <section className="categories">
-            <Categories />
+            <Categories handleCategoriesList={ this.handleCategoriesList } />
           </section>
-          { searchMode && (
-            <div>
-              { findProduct ? (
-                <section className="cards">
-                  <Cards { ...this.state } />
-                </section>
-              ) : (<h2>Nenhum produto foi encontrado</h2>
-              )}
-            </div>
+          {searchMode && (
+            loading ? <Loading />
+              : (
+                <div>
+                  { findProduct ? (
+                    <section className="cards">
+                      <Cards { ...this.state } />
+                    </section>
+                  )
+                    : <h2>Nenhum produto foi encontrado</h2>}
+                </div>)
           )}
         </div>
       </div>
