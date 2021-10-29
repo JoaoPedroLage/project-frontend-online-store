@@ -8,7 +8,6 @@ export default class Categories extends React.Component {
 
     this.state = {
       categoriesList: [],
-      // categoryId: '',
     };
 
     this.onGetCategoriesList = this.onGetCategoriesList.bind(this);

@@ -79,32 +79,32 @@ export default class Home extends React.Component {
 
     return (
       <div>
-        <h1>HOME</h1>
-        <label htmlFor="query-input">
-          <input
-            type="text"
-            name="productName"
-            value={ productName }
-            data-testid="query-input"
-            onChange={ this.onHandleInput }
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="query-button"
-          disabled={ isSearchButtonDisabled }
-          onClick={ this.onHandleSearch }
-        >
-          Pesquisar
-        </button>
-        <h2 data-testid="home-initial-message">
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </h2>
-        <div>
+        <header>
+          <h1>HOME</h1>
+          <label htmlFor="query-input">
+            <input
+              type="text"
+              name="productName"
+              value={ productName }
+              data-testid="query-input"
+              onChange={ this.onHandleInput }
+            />
+          </label>
+          <button
+            type="button"
+            data-testid="query-button"
+            disabled={ isSearchButtonDisabled }
+            onClick={ this.onHandleSearch }
+          >
+            Pesquisar
+          </button>
+          <h2 data-testid="home-initial-message">
+            Digite algum termo de pesquisa ou escolha uma categoria.
+          </h2>
           <Link data-testid="shopping-cart-button" to="/ShoppingCart">
             Carrinho de compras
           </Link>
-        </div>
+        </header>
         <br />
         <div className="main-section">
           <section className="categories">
@@ -113,14 +113,12 @@ export default class Home extends React.Component {
           {searchMode && (
             loading ? <Loading />
               : (
-                <div>
+                <section className="cards">
                   { findProduct ? (
-                    <section className="cards">
-                      <Cards { ...this.state } addToCart={ addToCart } />
-                    </section>
+                    <Cards { ...this.state } addToCart={ addToCart } />
                   )
                     : <h2>Nenhum produto foi encontrado</h2>}
-                </div>)
+                </section>)
           )}
         </div>
       </div>

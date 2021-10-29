@@ -42,10 +42,8 @@ export default class CardDetail extends React.Component {
       )// assim dá pra mostrar a imagem e o preço do item. Poderia estar td na div do render, mas o teste não passa!
     );
     return (
-      <>
-        <div data-testid="product-detail-name">
-          <h3>{`${match.params.title}`}</h3>
-        </div>
+      <div className="card">
+        <h3 data-testid="product-detail-name">{`${match.params.title}`}</h3>
         {details}
         <button
           type="button"
@@ -59,11 +57,11 @@ export default class CardDetail extends React.Component {
         <br />
         <Link
           to="/ShoppingCart"
-          data-testid="shopping-cart-button" // do requisito 3
+          data-testid="shopping-cart-button"
         >
           Carrinho de Compras
         </Link>
-      </>
+      </div>
     );
   }
 }
