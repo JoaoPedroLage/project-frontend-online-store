@@ -27,16 +27,16 @@ export default class Cards extends React.Component {
                   &nbsp;
                   { product.price }
                 </h4>
-                <button
-                  type="button"
-                  data-testid="product-add-to-cart"
-                  id={ product.title }
-                  onClick={ addToCart }
-                  name={ product.title }
-                >
-                  Adicionar ao carrinho
-                </button>
               </Link>
+              <button
+                type="button"
+                data-testid="product-add-to-cart"
+                id={ product.title }
+                onClick={ addToCart }
+                name={ product.title }
+              >
+                Adicionar ao carrinho
+              </button>
             </div>
           )))}
       </>);
