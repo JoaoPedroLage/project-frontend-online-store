@@ -8,6 +8,8 @@ export default class ShoppingCart extends React.Component {
     } = this.props;
     return (
       <div>
+        {/* condição: A quantidade de produtos aparece
+         no carrinho se o botão for clicado */}
         { cartList.length === 0
           ? (
             <h2 data-testid="shopping-cart-empty-message">
@@ -20,8 +22,6 @@ export default class ShoppingCart extends React.Component {
             </div>
           )) }
         <img src="https://cdn-icons-png.flaticon.com/512/126/126510.png" alt="carrinho de compras" />
-        {/* {} // condição: A quantidade de produtos aparece
-         no carrinho se o botão for clicado */}
       </div>
     );
   }

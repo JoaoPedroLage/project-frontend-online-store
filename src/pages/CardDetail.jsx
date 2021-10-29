@@ -32,7 +32,7 @@ export default class CardDetail extends React.Component {
 
   render() {
     const { product } = this.state;
-    const { match } = this.props;
+    const { match, addToCart } = this.props;
     const details = (
       product && ( // gambiarra pra passar no teste. Avaliador esperava só o nome e não as demais infos.
         <div>
@@ -47,6 +47,16 @@ export default class CardDetail extends React.Component {
           <h3>{`${match.params.title}`}</h3>
         </div>
         {details}
+        <button
+          type="button"
+          data-testid="product-detail-add-to-cart"
+          id={ match.params.title }
+          onClick={ addToCart }
+          name={ match.params.title }
+        >
+          Adicionar ao carrinho
+        </button>
+        <br />
         <Link
           to="/ShoppingCart"
           data-testid="shopping-cart-button" // do requisito 3
@@ -65,4 +75,5 @@ CardDetail.propTypes = { // td isso pra declarar as props e poder pegar o title 
       title: PropTypes.string, // props do macth - componente do route
     }),
   }).isRequired,
+  addToCart: PropTypes.func.isRequired,
 };

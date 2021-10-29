@@ -31,19 +31,28 @@ export default class App extends React.Component {
           <Route
             exact
             path="/"
-            render={ (propsRouter) => (<Home
-              { ...propsRouter }
-              addToCart={ this.addToCart }
-            />) }
+            render={ (propsRouter) => (
+              <Home
+                { ...propsRouter }
+                addToCart={ this.addToCart }
+              />) }
           />
           <Route
             path="/ShoppingCart"
-            render={ (propsRouter) => (<ShoppingCart
-              { ...propsRouter }
-              cartList={ cartList }
-            />) }
+            render={ (propsRouter) => (
+              <ShoppingCart
+                { ...propsRouter }
+                cartList={ cartList }
+              />) }
           />
-          <Route path="/CardDetail/:id/:title" component={ CardDetail } />
+          <Route
+            path="/CardDetail/:id/:title"
+            render={ (propsRouter) => (
+              <CardDetail
+                { ...propsRouter }
+                addToCart={ this.addToCart }
+              />) }
+          />
           { /* passa a prop 'id' já pela url (route passae e gera hystory, location e match, e no
             match tem o params que é onde tem a id , titulo, que vai ta na url. */ }
         </BrowserRouter>
