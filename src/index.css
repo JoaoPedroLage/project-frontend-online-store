@@ -6,7 +6,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -14,35 +13,54 @@ code {
 
 section {
   border: solid black 1px;
-  width: 100%;
 }
 
 img {
   width: 250px;
+  height: 250px;
+}
+
+header {
+  margin-left: 10px;
 }
 
 .main-section {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-content: flex-start;
+  width: 100%;
 }
 
 .categories {
   display: flex;
+  justify-content: center;
   width: 15%;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .cards {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-around;
+  width: 85%;
 }
 
 .card {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  text-align: center;
   align-items: center;
-  height: 360px;
-  width: 600px;
+  height: 500px;
+  width: 500px;
   border: solid black 1px;
+  margin: 10px;
+}
+
+#loading {
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }

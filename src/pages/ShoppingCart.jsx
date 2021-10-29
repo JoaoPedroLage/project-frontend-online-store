@@ -7,9 +7,13 @@ export default class ShoppingCart extends React.Component {
       cartList,
     } = this.props;
     return (
-      <div>
+      <div className="card">
         {/* condição: A quantidade de produtos aparece
          no carrinho se o botão for clicado */}
+        <h1>Carrinho de Compras</h1>
+        <br />
+        <img src="https://cdn-icons-png.flaticon.com/512/126/126510.png" alt="carrinho de compras" />
+        <hr size="10" width="100%" align="center" noshade />
         { cartList.length === 0
           ? (
             <h2 data-testid="shopping-cart-empty-message">
@@ -21,7 +25,7 @@ export default class ShoppingCart extends React.Component {
               <p data-testid="shopping-cart-product-quantity">{ item.quantity }</p>
             </div>
           )) }
-        <img src="https://cdn-icons-png.flaticon.com/512/126/126510.png" alt="carrinho de compras" />
+
       </div>
     );
   }
